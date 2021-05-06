@@ -13,11 +13,11 @@ namespace DataWarehouseForBus
     public partial class Form1 : Form
     {
         static List<Cloth> DataBase = new List<Cloth>();
+        static string FilePath;
         public Form1()
         {
             InitializeComponent();
-            DataBase = XmlSer.DeserializationFromXml();
-            RefreshDataGrid(DataBase);
+
         }
         private void RefreshDataGrid(List<Cloth> db)
         {
@@ -74,7 +74,7 @@ namespace DataWarehouseForBus
             if (output.Count != 0)
                 MessageBox.Show($"无法添加以下款号，因为他们已存在于数据库内: {String.Join(',', output)}", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
             RefreshDataGrid(DataBase);
-            XmlSer.SerializationToXml(DataBase);
+            XmlSer.SerializationToXml(DataBase, FilePath);
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -87,7 +87,7 @@ namespace DataWarehouseForBus
                 newdb.Add(cloth);
             }
             DataBase = newdb;
-            XmlSer.SerializationToXml(DataBase);
+            XmlSer.SerializationToXml(DataBase, FilePath);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -111,6 +111,17 @@ namespace DataWarehouseForBus
         private void button2_Click(object sender, EventArgs e)
         {
             RefreshDataGrid(DataBase);
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            OpenFileDialog sfd = new OpenFileDialog();
+            sfd.ShowDialog();
+            FilePath = sfd.FileName;
+            DataBase = XmlSer.DeserializationFromXml(FilePath);
+            RefreshDataGrid(DataBase);
+            this.Activate();
 
         }
     }

@@ -7,17 +7,17 @@ namespace DataWarehouseForBus
 {
     class XmlSer
     {
-        public static void SerializationToXml(List<Cloth> dtb)
+        public static void SerializationToXml(List<Cloth> dtb, string filepath)
         {
-            FileStream fs = new FileStream("database.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
             XmlSerializer serializer = new XmlSerializer(typeof(List<Cloth>));
             serializer.Serialize(fs, dtb);
             fs.Close();
         }
 
-        public static List<Cloth> DeserializationFromXml()
+        public static List<Cloth> DeserializationFromXml(string filepath)
         {
-            FileStream fs = new FileStream("database.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(List<Cloth>));
             var output = (List<Cloth>)serializer.Deserialize(fs);
             fs.Close();
