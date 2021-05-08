@@ -40,9 +40,17 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Aspose.Cells": {
+              "target": "Package",
+              "version": "[21.4.0, )"
+            },
             "CsvTextFieldParser": {
               "target": "Package",
               "version": "[1.2.1, )"
+            },
+            "ExcelDataReader": {
+              "target": "Package",
+              "version": "[3.6.0, )"
             },
             "System.Text.Encoding.CodePages": {
               "target": "Package",

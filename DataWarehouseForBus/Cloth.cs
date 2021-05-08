@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Linq;
 using System.Data;
+using Aspose.Cells;
 
 
 namespace DataWarehouseForBus
@@ -51,24 +52,19 @@ namespace DataWarehouseForBus
         public static List<Cloth> ClothParser(string filepath)
         {
             List<Cloth> output = new List<Cloth>();
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            string csvstring = File.ReadAllText(filepath, Encoding.GetEncoding("GB2312"));
-            using (var csvReader = new StringReader(csvstring))
-            using (var tfp = new NotVisualBasic.FileIO.CsvTextFieldParser(csvReader))
+            LoadOptions loadOptions2 = new LoadOptions(LoadFormat.Xlsx);
+            Workbook wb = new Workbook(filepath, loadOptions2);
+            var dt = wb.Worksheets[0].Cells.ExportDataTableAsString(1, 0, wb.Worksheets[0].Cells.MaxDataRow, wb.Worksheets[0].Cells.MaxDataColumn + 1);
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                // Get Some Column Names
-                if (!tfp.EndOfData)
-                {
-                    string[] fields = tfp.ReadFields();
-                }
-                // Get Remaining Rows
-                while (!tfp.EndOfData)
-                {
-                    string[] fields = tfp.ReadFields();
-                    fields = fields[0].Split(';');
-                    Cloth newCloth = new Cloth(fields[0], fields[1], fields[2], double.Parse(fields[3]), double.Parse(fields[4]), double.Parse(fields[5]), fields[6]);
-                    output.Add(newCloth);
-                }
+                var article = dt.Rows[i][0].ToString();
+                var manufactor = dt.Rows[i][1].ToString();
+                var name = dt.Rows[i][2].ToString();
+                var weight = double.Parse(dt.Rows[i][3].ToString());
+                var inp = double.Parse(dt.Rows[i][4].ToString());
+                var outp = double.Parse(dt.Rows[i][5].ToString());
+                var des = dt.Rows[i][6].ToString();
+                output.Add(new Cloth(article, manufactor, name, weight, inp, outp, des));
             }
             return output;
         }

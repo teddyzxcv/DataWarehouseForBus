@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
+using Aspose.Cells;
 namespace DataWarehouseForBus
 {
     public partial class Form1 : Form
@@ -17,6 +18,7 @@ namespace DataWarehouseForBus
         public Form1()
         {
             InitializeComponent();
+            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip2;
 
         }
         private void RefreshDataGrid(List<Cloth> db)
@@ -51,7 +53,7 @@ namespace DataWarehouseForBus
         private void importStripMenuItem1_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "CSV 文件 (*.csv)|*.csv";
+            ofd.Filter = "XLSX 文件 (*.xlsx)|*.xlsx";
             List<string> output = new List<string>();
             if (ofd.ShowDialog() == DialogResult.OK)
             {
@@ -117,12 +119,97 @@ namespace DataWarehouseForBus
         private void Form1_Load(object sender, EventArgs e)
         {
             OpenFileDialog sfd = new OpenFileDialog();
-            sfd.ShowDialog();
+            sfd.Filter = "XML 文件 (*.xml)|*.xml";
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                this.Close();
+                return;
+            }
             FilePath = sfd.FileName;
             DataBase = XmlSer.DeserializationFromXml(FilePath);
             RefreshDataGrid(DataBase);
             this.Activate();
 
+        }
+
+        private void exportStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "XLSX 文件 (*.xlsx)|*.xlsx";
+            var result = sfd.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                ExportExcel((DataTable)this.dataGridView1.DataSource, sfd.FileName, new List<string>() { "款号", "厂家", "名称", "重量", "进价", "售价", "描述" });
+            }
+        }
+
+        private static string ExportExcel(DataTable dt, string filename, List<string> listHeader)
+        {
+            try
+            {
+                Aspose.Cells.Workbook workbook = new Aspose.Cells.Workbook(); //Workbook
+                Aspose.Cells.Worksheet sheet = workbook.Worksheets[0]; //Worksheet
+                Aspose.Cells.Cells cells = sheet.Cells;//Cell
+                Style style;
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    cells[0, j].PutValue(listHeader[j]);
+
+                    style = cells[0, j].GetStyle();
+                    style.BackgroundColor = Color.Blue;
+                    style.ForegroundColor = System.Drawing.Color.FromArgb(153, 204, 0);
+                    style.Pattern = BackgroundType.Solid;
+                    cells[0, j].SetStyle(style);
+                }
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        cells[i + 1, j].PutValue(dt.Rows[i][j].ToString());
+                    }
+                }
+                sheet.AutoFitColumns();
+                cells.SetRowHeight(0, 30);
+                workbook.Save(filename);
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+        private void saveStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "XML 文件 (*.xml)|*.xml";
+            var result = sfd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                XmlSer.SerializationToXml(DataBase, sfd.FileName);
+            }
+        }
+
+        private void deleteStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dtb = (DataTable)this.dataGridView1.DataSource;
+                if (this.dataGridView1.SelectedRows.Count == 0)
+                    return;
+                string article = dtb.Rows[this.dataGridView1.SelectedRows[0].Index]["款号"].ToString();
+                string manufacturer = dtb.Rows[this.dataGridView1.SelectedRows[0].Index]["厂家"].ToString();
+                Cloth todelete = DataBase.Where(e => e.Article == article).Where(e => e.Manufacturer == manufacturer).First();
+                DataBase.Remove(todelete);
+                RefreshDataGrid(DataBase);
+                XmlSer.SerializationToXml(DataBase, FilePath);
+            }
+            catch
+            {
+                return;
+            }
         }
     }
 }

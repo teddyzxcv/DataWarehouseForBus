@@ -18,3 +18,5 @@ C:\Users\pan26\Documents\GitHub\DataWarehouseForBus\DataWarehouseForBus\obj\Debu
 C:\Users\pan26\Documents\GitHub\DataWarehouseForBus\DataWarehouseForBus\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\pan26\Documents\GitHub\DataWarehouseForBus\DataWarehouseForBus\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
 C:\Users\pan26\Documents\GitHub\DataWarehouseForBus\DataWarehouseForBus\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\pan26\Documents\GitHub\DataWarehouseForBus\DataWarehouseForBus\bin\Debug\netcoreapp3.1\ExcelDataReader.dll
+C:\Users\pan26\Documents\GitHub\DataWarehouseForBus\DataWarehouseForBus\bin\Debug\netcoreapp3.1\Aspose.Cells.dll

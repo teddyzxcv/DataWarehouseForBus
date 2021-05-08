@@ -29,6 +29,7 @@ namespace DataWarehouseForBus
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
@@ -45,12 +46,15 @@ namespace DataWarehouseForBus
             this.exportStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -190,12 +194,14 @@ namespace DataWarehouseForBus
             this.exportStripMenuItem1.Name = "exportStripMenuItem1";
             this.exportStripMenuItem1.Size = new System.Drawing.Size(85, 21);
             this.exportStripMenuItem1.Text = "导出为Excel";
+            this.exportStripMenuItem1.Click += new System.EventHandler(this.exportStripMenuItem1_Click);
             // 
             // saveStripMenuItem1
             // 
             this.saveStripMenuItem1.Name = "saveStripMenuItem1";
             this.saveStripMenuItem1.Size = new System.Drawing.Size(44, 21);
             this.saveStripMenuItem1.Text = "备份";
+            this.saveStripMenuItem1.Click += new System.EventHandler(this.saveStripMenuItem1_Click);
             // 
             // dataGridView1
             // 
@@ -207,6 +213,20 @@ namespace DataWarehouseForBus
             this.dataGridView1.Size = new System.Drawing.Size(530, 450);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteStripMenuItem1});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(101, 26);
+            // 
+            // deleteStripMenuItem1
+            // 
+            this.deleteStripMenuItem1.Name = "deleteStripMenuItem1";
+            this.deleteStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.deleteStripMenuItem1.Text = "删除";
+            this.deleteStripMenuItem1.Click += new System.EventHandler(this.deleteStripMenuItem1_Click);
             // 
             // Form1
             // 
@@ -225,6 +245,7 @@ namespace DataWarehouseForBus
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -247,6 +268,8 @@ namespace DataWarehouseForBus
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem deleteStripMenuItem1;
     }
 }
 
